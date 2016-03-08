@@ -1,4 +1,4 @@
-angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.services', 'firebase'])
+angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.services', 'firebase', 'ngCordova'])
 
 .run(function($ionicPlatform) {
 
@@ -30,16 +30,15 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
 
   .state('checkAuth', {
     url: '/checkAuth',
-    //templateUrl: 'templates/loading.html',
     controller: 'CheckAuthCtrl'
   })
 
   .state('app.nearMe', {
     url: '/nearMe',
-    controller: 'NearMeCtrl',
     views: {
       'menuContent': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/nearMe.html',
+        controller: 'NearMeCtrl'
       }
     }
   })

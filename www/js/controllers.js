@@ -62,7 +62,7 @@ angular.module('barRoulette.controllers', [])
       email : email,
       password: password
     }).then(function(authData){
-      console.log(authData)
+      console.log(authData);
       $state.go('app.nearMe');
     }).catch(function(error){
       $ionicPopup.alert({
@@ -103,11 +103,53 @@ angular.module('barRoulette.controllers', [])
 
 })
 
-.controller('NearMeCtrl', function(){
-  navigator.geolocation.getCurrentPosition(function(pos){
-    console.log(pos)
+.controller('NearMeCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading){
+  var options = {timeout: 10000, enableHighAccuracy: true};
+
+  $ionicLoading.show({
+    template: 'Loading....'
   });
-})
+
+  $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+    console.log(position);
+
+    var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+    var mapOptions = {
+      center: latLng,
+      zoom: 15,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+
+    $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
+
+    google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+
+      $ionicLoading.hide();
+      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+
+      var marker = new google.maps.Marker({
+        map: $scope.map,
+        icon: image,
+        draggable:true,
+        animation: google.maps.Animation.DROP,
+        position: latLng
+      });
+
+      var infoWindow = new google.maps.InfoWindow({
+        content: "hi"
+      });
+
+      google.maps.event.addListener(marker, 'click', function (event) {
+        console.log(event)
+        infoWindow.open($scope.map, marker);
+      });
+    });
+
+  }, function(error){
+    console.log("Could not get location");
+  });
+});
 
 
 
