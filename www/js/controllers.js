@@ -103,7 +103,7 @@ angular.module('barRoulette.controllers', [])
 
 })
 
-.controller('NearMeCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading){
+.controller('NearMeCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $http, Coords){
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $ionicLoading.show({
@@ -111,10 +111,8 @@ angular.module('barRoulette.controllers', [])
   });
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-    console.log(position);
 
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-
     var mapOptions = {
       center: latLng,
       zoom: 15,
@@ -122,34 +120,43 @@ angular.module('barRoulette.controllers', [])
     };
 
     $scope.map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
     google.maps.event.addListenerOnce($scope.map, 'idle', function(){
 
       $ionicLoading.hide();
-      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
 
+      var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
       var marker = new google.maps.Marker({
         map: $scope.map,
         icon: image,
-        draggable:true,
+        draggable: true,
         animation: google.maps.Animation.DROP,
         position: latLng
       });
 
-      var infoWindow = new google.maps.InfoWindow({
-        content: "hi"
-      });
+      var lat = marker.getPosition().lat();
+      var lng = marker.getPosition().lng();
 
-      google.maps.event.addListener(marker, 'click', function (event) {
-        console.log(event)
-        infoWindow.open($scope.map, marker);
-      });
+      $scope.setCoords = function(){
+        Coords.setCoords({lat: lat, lng: lng});
+        $state.go('app.gettingThere');
+      }
     });
 
   }, function(error){
     console.log("Could not get location");
   });
+})
+
+.controller('GettingThereCtrl', function($scope, $state, $ionicLoading, $http, Data, Coords){
+
+  var coords = Coords.getCoords();
+  Data.thing(coords.lat, coords.lng, function(data){
+    console.log(data)
+    $scope.theBar = data.theBar
+  });
+
 });
+
 
 
 

@@ -28,6 +28,18 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     controller: 'AppCtrl'
   })
 
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'AuthCtrl'
+  })
+
+  .state('register', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller: 'AuthCtrl'
+  })
+
   .state('checkAuth', {
     url: '/checkAuth',
     controller: 'CheckAuthCtrl'
@@ -43,23 +55,21 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     }
   })
 
- .state('login', {
-    url: '/login',
-    templateUrl: 'templates/login.html',
-    controller: 'AuthCtrl'
-  })
-
-  .state('register', {
-    url: '/register',
-    templateUrl: 'templates/register.html',
-    controller: 'AuthCtrl'
-  })
-
   .state('app.browse', {
       url: '/browse',
       views: {
         'menuContent': {
           templateUrl: 'templates/browse.html'
+        }
+      }
+    })
+
+    .state('app.gettingThere', {
+      url: '/gettingThere',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/gettingThere.html',
+          controller: 'GettingThereCtrl'
         }
       }
     });
