@@ -18,7 +18,10 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
 })
 
 
-.config(function($stateProvider, $urlRouterProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider) {
+
+  $ionicConfigProvider.tabs.position('bottom');
+
   $stateProvider
 
   .state('app', {
@@ -66,13 +69,55 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
 
     .state('app.gettingThere', {
       url: '/gettingThere',
+      abstract: true,
+      cache: false,
       views: {
         'menuContent': {
           templateUrl: 'templates/gettingThere.html',
           controller: 'GettingThereCtrl'
         }
       }
-    });
+    })
+
+    .state('app.gettingThere.info', {
+      url: '/info',
+      views: {
+        'info': {
+          templateUrl: 'templates/GettingThere/info.html',
+          controller: 'GettingThereCtrl'
+        }
+      }
+    })
+
+    .state('app.gettingThere.uber', {
+      url: '/uber',
+      views: {
+        'uber': {
+          templateUrl: 'templates/GettingThere/uber.html',
+          controller: 'UberCtrl'
+        }
+      }
+    })
+
+    .state('app.gettingThere.walk', {
+      url: '/walk',
+      views: {
+        'walk': {
+          templateUrl: 'templates/GettingThere/walk.html',
+          controller: 'WalkCtrl'
+        }
+      }
+    })
+
+    .state('app.gettingThere.drive', {
+      url: '/drive',
+      views: {
+        'drive': {
+          templateUrl: 'templates/GettingThere/drive.html',
+          controller: 'DriveCtrl'
+        }
+      }
+    })
 
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/checkAuth');

@@ -1,6 +1,22 @@
-<ion-view view-title="Find a random bar near you">
+<ion-view view-title="Find a random bar near the green pin">
   <ion-content>
     <div id="map" data-tap-disabled="true"></div>
-    <button class="button button-block button-calm" ng-click="setCoords()">Find Bar Near Pin</button>
+    <div id="marker"><img src="img/green-pin.png"></div>
+
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">
+          Max distance
+        </div>
+        <select ng-model="distanceSelect" ng-change="updateDistance(distanceSelect)">
+          <option value="2" selected>2 Miles<small> (Recommended)</small></option>
+          <option value="3">3 Miles</option>
+          <option value="4">4 Miles</option>
+          <option value="5">5 Miles</option>
+          <option value="10">10 Miles</option>
+        </select>
+      </label>
+    </div>
+    <button class="button button-block button-calm" ng-click="findBar()">Find Bar {{miles}} Miles From Pin</button>
   </ion-content>
 </ion-view>

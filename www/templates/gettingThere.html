@@ -1,19 +1,16 @@
-
-<ion-view view-title="Getting There">
+<ion-view hide-back-button="true">
   <ion-tabs class="tabs-stable tabs-icon-top">
-    <ion-tab title="Track" icon="ion-map">
-      <ion-content>
-        <h1>{{theBar.name}}</h1>
-      </ion-content>
+    <ion-tab title="Info" icon="ion-information-circled" ui-sref="app.gettingThere.info">
+      <ion-nav-view name="info"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="Chat" icon="ion-chatboxes">
-      // Tab content goes here
+    <ion-tab title="Uber" icon="ion-model-s" ui-sref="app.gettingThere.uber">
+      <ion-nav-view name="uber"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="Buddies" icon="ion-ios-people">
-      // Tab content goes here
+    <ion-tab title="Walk" icon="ion-android-walk" ui-sref="app.gettingThere.walk">
+      <ion-nav-view name="walk"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="Checklist" icon="ion-checkmark">
-      // Tab content goes here
+    <ion-tab title="Drive" icon="ion-map" ui-sref="app.gettingThere.drive">
+      <ion-nav-view name="drive"></ion-nav-view>
     </ion-tab>
   </ion-tabs>
 </ion-view>
