@@ -1,7 +1,16 @@
 <ion-view view-title="Uber">
-  <ion-content>
-    <h3>Uber X: {{uberXPrice}} Time: {{uberXTime}} minutes</h3>
-    <h3>Uber SUV: {{uberSUVPrice}} Time: {{uberSUVTime}} minutes</h3>
-    <button class="button button-block button-dark" ng-click="openUber()"> <span><img class="button-icon" src="img/uberBadge.png"> Open Uber </span></button>
+  <ion-content scroll="false">
+    <div class="card animated flipInX">
+      <div class="item item-text-wrap">
+        <h3>Uber X: {{uberXPrice}} Time: {{uberXTime}} minutes</h3>
+      </div>
+    </div>
+    <div class="card animated flipInX">
+      <div class="item item-text-wrap">
+        <h3>Uber SUV: {{uberSUVPrice}} Time: {{uberSUVTime}} minutes</h3>
+      </div>
+    </div>
+    <button class="button button-bottom button-block button-dark" ng-click="openUber()"> <span><img class="button-icon" src="img/uberBadge.png"> Open Trip In Uber </span></button>
   </ion-content>
 </ion-view>
+

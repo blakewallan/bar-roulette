@@ -1,4 +1,18 @@
+/*Universal Rules*/
+a {
+  text-decoration: none;
+}
 
+.scroll {
+  height: 100%;
+}
+
+.button {
+  border-radius: 0;
+}
+
+
+/*Initial Loading screen*/
 .beer-logo {
   height: 18em;
   width: 18em;
@@ -14,10 +28,8 @@
   100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.5;}
 }
 
-.scroll {
-  height: 100%;
-}
 
+/*Near Me View*/
 #map {
   width: 100%;
   height: 75%;
@@ -40,6 +52,26 @@
 
 #marker img {
   width: 50px;
+}
+
+.button-bottom {
+  position: absolute;
+  top: 90%;
+}
+
+
+/*Side Menu Rules*/
+.side-menu-header {
+  align-content: center;
+  height: 100px;
+}
+
+.side-menu-header img {
+  height: 50px;
+}
+
+.side-menu-list {
+  padding-top: 50px;
 }
 
 

@@ -1,7 +1,17 @@
 <ion-view view-title="Getting There">
-  <ion-content>
+  <ion-content scroll="false">
     <h2>We have selected your bar</h2>
-    <h3>Now how do you want to get there?</h3>
+    <h4>Here are a few details</h4>
+    <div class="card animated flipInX">
+      <div class="item item-text-wrap">
+        <h3>Price Level: {{barPrice}}</h3>
+      </div>
+    </div>
+    <div class="card animated flipInX">
+      <div class="item item-text-wrap">
+        <h3>Rating: {{barRating}}</h3>
+      </div>
+    </div>
     <h1>{{barInfo.theBar.name}}</h1>
   </ion-content>
 </ion-view>

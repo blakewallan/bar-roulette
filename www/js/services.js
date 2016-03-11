@@ -15,7 +15,7 @@ angular.module('barRoulette.services', [])
 
   })
 
-  .factory('Bar', function($http){
+  .factory('Bar', function($http, $state, $ionicPopup){
     var theBar = {};
 
     function setBar(lat, lng, distanceOption, callback){
@@ -23,14 +23,28 @@ angular.module('barRoulette.services', [])
 
       $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ lng +'&radius='+ distanceOption +'&types=bar&opennow&key='+ mapsKey)
         .success(function(data){
-          var rand = Math.floor((Math.random() * data.results.length));
-          theBar = data.results[rand];
-          var barLat = theBar.geometry.location.lat;
-          var barLng = theBar.geometry.location.lng;
-          callback(theBar = {theBar: theBar, barLat: barLat, barLng: barLng});
+          if (data.status === 'OK') {
+            var rand = Math.floor((Math.random() * data.results.length));
+            theBar = data.results[rand];
+            console.log(theBar);
+            var barLat = theBar.geometry.location.lat;
+            var barLng = theBar.geometry.location.lng;
+            callback(theBar = {theBar: theBar, barLat: barLat, barLng: barLng});
+          }
+          else {
+            $ionicPopup.alert({
+              title: 'No Open Bars Found',
+              template: 'Try expanding your search location'
+            });
+            $state.go('app.nearMe', {}, {reload: true});
+          }
         })
         .error(function(error){
-          console.log('Error: ' + error)
+          $ionicPopup.alert({
+            title: 'Sorry! Something Went Wrong',
+            template: 'Try expanding your search location or search by neighborhood'
+          });
+          $state.go('app.nearMe', {}, {reload: true});
         })
     }
 
@@ -42,7 +56,7 @@ angular.module('barRoulette.services', [])
   })
 
 
-  .factory('Uber', function($http){
+  .factory('Uber', function($http, $state, $ionicPopup){
 
     function getUberData(lat, lng, barLat, barLng, callback){
       var uberKey = 'rrbj2kEDJN7cbRojTjG7rjzyeXmio_u1V_on544L';
@@ -58,11 +72,11 @@ angular.module('barRoulette.services', [])
               callback({time: data, price: price})
             })
             .error(function(error){
-              console.log(error);
+              callback('error');
             })
         })
         .error(function(error){
-          console.log(error);
+          callback('error');
         })
     }
 

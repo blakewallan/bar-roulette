@@ -1,14 +1,14 @@
 <ion-view view-title="Login" name="login-view">
-  <ion-content class="padding">
-      <div class="list list-inset">
+  <ion-content scroll="false">
+      <div class="list auth-list">
           <label class="item item-input">
               <input type="text" placeholder="Email" ng-model="email">
           </label>
           <label class="item item-input">
               <input type="password" placeholder="Password" ng-model="password">
           </label>
+          <button class="button button-block button-calm" ng-click="login(email, password)">Login</button>
+          <h3>OR</h3>
+          <a href="#/register"><button class="button button-block button-calm">SignUp</button></a>
       </div>
-      <button class="button button-block button-calm" ng-click="login(email, password)">Login</button>
-      <h3>Dont have an account? <a href="#/register">Sign Up!</a> </h3>
-  </ion-content>
 </ion-view>

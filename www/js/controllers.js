@@ -25,12 +25,12 @@ angular.module('barRoulette.controllers', [])
       }
     });
   }
-
 })
 
 .controller('CheckAuthCtrl', function($scope, $state, $ionicLoading, $timeout, $ionicHistory){
   var fb = new Firebase('bar-roulette.firebaseIO.com');
   var isLoggedIn = fb.getAuth();
+  console.log(isLoggedIn)
 
   $ionicHistory.nextViewOptions({
     disableBack: true
@@ -113,9 +113,8 @@ angular.module('barRoulette.controllers', [])
 
     var distanceOption = 3200;
 
-    $scope.updateDistance = function(distanceSelect) {
-      $scope.miles = distanceSelect;
-      $scope.distanceOption = Math.floor(parseInt(distanceSelect) * 1609.34);
+    $scope.updateDistance = function(distanceSelect){
+      distanceOption = Math.floor(parseInt(distanceSelect) * 1609.34);
     };
 
     var latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
@@ -139,21 +138,24 @@ angular.module('barRoulette.controllers', [])
       }
     });
 
+    var center = $scope.map.getCenter();
+    var barLat = center.lat();
+    var barLng = center.lng();
+    var userLat = position.coords.latitude;
+    var userLng = position.coords.longitude;
+
     google.maps.event.addListener($scope.map, 'center_changed', function() {
       var center = $scope.map.getCenter();
-
-      var barLat = center.lat();
-      var barLng = center.lng();
-      var userLat = position.coords.latitude;
-      var userLng = position.coords.longitude;
-
-      $scope.findBar = function(){
-        Bar.setBar(barLat, barLng, distanceOption, function(){
-          UserCoords.setCoords({lat: userLat, lng: userLng});
-          $state.go('app.gettingThere.info');
-        });
-      }
+      barLat = center.lat();
+      barLng = center.lng();
     });
+
+    $scope.findBar = function(){
+      Bar.setBar(barLat, barLng, distanceOption, function(){
+        UserCoords.setCoords({lat: userLat, lng: userLng});
+        $state.go('app.gettingThere.info');
+      });
+    };
 
     $ionicLoading.hide();
 
@@ -164,11 +166,27 @@ angular.module('barRoulette.controllers', [])
 
 .controller('GettingThereCtrl', function($scope, $state, $ionicLoading, $http, Bar){
 
-  $scope.barInfo = Bar.getBar();
-
+  var barInfo = Bar.getBar();
+  $scope.barInfo = barInfo;
+  if(Object.keys(barInfo).length > 1){
+    if(barInfo.theBar.price_level){
+      $scope.barPrice = barInfo.theBar.price_level;
+    }
+    if(barInfo.theBar.rating){
+      $scope.barRating = barInfo.theBar.rating;
+    }
+    else{
+      $scope.barRating = 'Not available';
+      $scope.barPrice = 'Not available'
+    }
+  }
+  else{
+    $scope.barPrice = 'Not available';
+    $scope.barRating = 'Not available';
+  }
 })
 
-.controller('UberCtrl', function($scope, $state, $ionicLoading, $http, Bar, UserCoords, Uber){
+.controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber){
 
   $ionicLoading.show({
     template: 'Loading....'
@@ -185,10 +203,19 @@ angular.module('barRoulette.controllers', [])
   Uber.getUberData(userLat, userLng, barLat, barLng, function(data){
     $ionicLoading.hide();
 
-    $scope.uberXPrice = data.price.prices[0].estimate;
-    $scope.uberSUVPrice = data.price.prices[5].estimate;
-    $scope.uberXTime = Math.floor(parseInt(data.time.times[0].estimate) * 0.0166667);
-    $scope.uberSUVTime = Math.floor(parseInt(data.time.times[4].estimate) * 0.0166667);
+    if(data !== 'error') {
+      $scope.uberXPrice = data.price.prices[0].estimate;
+      $scope.uberSUVPrice = data.price.prices[5].estimate;
+      $scope.uberXTime = Math.floor(parseInt(data.time.times[0].estimate) * 0.0166667);
+      $scope.uberSUVTime = Math.floor(parseInt(data.time.times[4].estimate) * 0.0166667);
+    }
+    else {
+      $ionicPopup.alert({
+        title: 'Sorry! Something Went Wrong',
+        template: 'Try a different transportation method'
+      });
+      $state.go('app.gettingThere.info', {}, {reload: true});
+    }
   });
 
   $scope.openUber = function(){
@@ -197,7 +224,7 @@ angular.module('barRoulette.controllers', [])
 
     setTimeout(function () {
       window.open(noAppUrl, '_system')
-    }, 500);
+    }, 100);
     window.open(appUrl, '_system')
   };
 })
