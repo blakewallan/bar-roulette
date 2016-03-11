@@ -3050,8 +3050,7 @@ html {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  font-family: sans-serif;
-  /* 1 */
+  font-family: 'Raleway', sans-serif;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
   /* 2 */
@@ -3119,8 +3118,7 @@ kbd,
 pre,
 samp {
   font-size: 1em;
-  font-family: monospace, serif; }
-
+  font-family: 'Raleway', sans-serif;}
 /**
  * Improve readability of pre-formatted text in all browsers.
  */

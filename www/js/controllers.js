@@ -166,6 +166,10 @@ angular.module('barRoulette.controllers', [])
 
 .controller('GettingThereCtrl', function($scope, $state, $ionicLoading, $http, Bar){
 
+  $scope.newBar = function(){
+    $state.go('app.nearMe', {}, {reload: true});
+  };
+
   var barInfo = Bar.getBar();
   $scope.barInfo = barInfo;
   if(Object.keys(barInfo).length > 1){

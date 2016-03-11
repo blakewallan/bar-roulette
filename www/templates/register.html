@@ -1,5 +1,8 @@
 <ion-nav-view view-title="Register" name="register-view">
-  <ion-content scroll="false">
+  <ion-content scroll="false" class="drink-bg">
+    <div class="title-area">
+      <h1 class="lobster-title animated bounceInDown">Bar <br> Roulette</h1>
+    </div>
     <div class="list auth-list">
       <label class="item item-input">
         <input type="text" placeholder="Email" ng-model="email">
@@ -11,7 +14,8 @@
         <input type="password" placeholder="Confirm Password" ng-model="password2">
       </label>
       <button class="button button-block button-calm" ng-click="register(email, password, password2)">Register</button>
+      <h3 class="text-center white-h3">Or</h3>
+      <a href="#/login"><button class="button button-block button-calm">Already have an account? Login</button></a>
     </div>
-    <h3>Already have an account? <a href="#/login">Login</a> </h3>
   </ion-content>
 </ion-nav-view>
