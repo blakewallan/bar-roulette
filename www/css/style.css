@@ -10,8 +10,12 @@ a {
   text-decoration: none;
 }
 
-html {
-  font-family: 'Raleway', sans-serif;
+body {
+  font-family: 'Raleway', sans-serif; !important;
+}
+
+.font-railway {
+  font-family: 'Raleway', sans-serif; !important;
 }
 
 .lobster-title {
@@ -27,6 +31,7 @@ html {
 
 .white-h3 {
   color: white;
+  font-family: 'Raleway', sans-serif; !important;
 }
 
 .scroll {
@@ -35,6 +40,7 @@ html {
 
 .button {
   border-radius: 0;
+  font-family: 'Raleway', sans-serif; !important;
 }
 
 .bg-gradient {
@@ -42,14 +48,7 @@ html {
 }
 
 .bg-light-green {
-  background-color: #A5BF8E;
-}
-
-.button.button-calm {
-  background-color: #B24029;
-}
-.button.button-calm.active, .button.button-calm.activated {
-  background-color: #DD4029;
+  background-color: #ADBFB2;
 }
 
 .item-input {
@@ -81,42 +80,51 @@ html {
 /*Near Me View*/
 #map {
   width: 100%;
-  height: 86%;
+  height: 85%;
 }
 
 #marker {
   position: absolute;
-  top: 43%;
+  top: 42.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
-}
-
-.button-icon {
-  height: 32px;
-  position: absolute;
-  left: 0;
-  top: 10%;
 }
 
 #marker img {
   width: 50px;
 }
 
+.info-title {
+  margin-top: 50px;
+}
+
+.info-details {
+  margin-top: 60px;
+}
+
 .button-bottom {
   position: absolute;
-  top: 91%;
+  bottom: -9px;
+  height: 60px;
+}
+
+.button-icon {
+  height: 32px;
+  position: absolute;
+  left: 0;
+  top: 23%;
 }
 
 
 /*Side Menu Rules*/
-.side-menu-header {
-  align-content: center;
+.menu-header {
   height: 100px;
+  margin: 0 auto;
 }
 
-.side-menu-header img {
-  height: 50px;
+.menu-header img {
+  height: 75px;
 }
 
 .side-menu-list {

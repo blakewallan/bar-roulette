@@ -30,7 +30,6 @@ angular.module('barRoulette.controllers', [])
 .controller('CheckAuthCtrl', function($scope, $state, $ionicLoading, $timeout, $ionicHistory){
   var fb = new Firebase('bar-roulette.firebaseIO.com');
   var isLoggedIn = fb.getAuth();
-  console.log(isLoggedIn)
 
   $ionicHistory.nextViewOptions({
     disableBack: true
@@ -106,7 +105,7 @@ angular.module('barRoulette.controllers', [])
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $ionicLoading.show({
-    template: 'Loading....'
+    template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
   });
 
   $cordovaGeolocation.getCurrentPosition(options).then(function(position){
@@ -193,7 +192,7 @@ angular.module('barRoulette.controllers', [])
 .controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber){
 
   $ionicLoading.show({
-    template: 'Loading....'
+    template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
   });
 
   var barInfo = Bar.getBar();
