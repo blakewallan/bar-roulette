@@ -1,6 +1,17 @@
 <ion-view view-title="Walk">
-  <ion-content>
-    <h1>Walk There</h1>
-    <h1>{{barInfo.theBar.name}}</h1>
+  <ion-content scroll="false" class="bg-light-green">
+    <div class="info-details">
+      <h4 class="padding">Walking There</h4>
+      <div class="card animated flipInX">
+        <div class="item item-text-wrap">
+          <h2><strong>Distance: </strong> {{distance}}</h2>
+        </div>
+      </div>
+      <div class="card animated flipInX">
+        <div class="item item-text-wrap">
+          <h2><strong>Duration: </strong> {{duration}}</h2>
+        </div>
+      </div>
+    </div>
   </ion-content>
 </ion-view>

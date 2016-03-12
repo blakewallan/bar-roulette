@@ -1,21 +1,23 @@
 <ion-view view-title="Getting There">
   <ion-content scroll="false" class="bg-light-green">
     <div class="info-title">
-      <h2 class="padding lobster-title">Ready?</h2>
+      <h2 class="padding lobster-title animated bounceInDown">Ready?</h2>
     </div>
     <div class="info-details">
       <h4 class="padding">Here are a few details</h4>
       <div class="card animated flipInX">
         <div class="item item-text-wrap">
-          <h3><strong>Price Level:</strong> {{barPrice}}</h3>
+          <h2><strong>Price Level:</strong> {{barPrice}}</h2>
         </div>
       </div>
       <div class="card animated flipInX">
         <div class="item item-text-wrap">
-          <h3><strong>Rating:</strong> {{barRating}}</h3>
+          <h2><strong>Rating:</strong> {{barRating}}</h2>
         </div>
       </div>
     </div>
+    <h4 class="padding">Pick your transportation method in the tabs below</h4>
+    <h4 class="padding">We recommend Uber</h4>
     <button class="button button-bottom button-block button-assertive" ng-click="newBar()">Not looking good? Try again</button>
   </ion-content>
 </ion-view>

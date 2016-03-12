@@ -56,7 +56,7 @@ angular.module('barRoulette.services', [])
   })
 
 
-  .factory('Uber', function($http, $state, $ionicPopup){
+  .factory('Uber', function($http){
 
     function getUberData(lat, lng, barLat, barLng, callback){
       var uberKey = 'rrbj2kEDJN7cbRojTjG7rjzyeXmio_u1V_on544L';
@@ -84,12 +84,22 @@ angular.module('barRoulette.services', [])
 
   })
 
+  .factory('Walk', function($http){
 
-//$http.get('https://maps.googleapis.com/maps/api/directions/json?origin='+ lat + ','+ lng +'&destination='+ barLat +','+ barLng +'&mode=walking&key='+ mapsKey)
-//  .success(function(data){
-//    console.log(data)
-//    callback({uberData: uberData})
-//  })
-//  .error(function(error){
-//    console.log(error);
-//  })
+    function getWalkData(lat, lng, barLat, barLng, callback){
+      var mapsKey = 'AIzaSyD5A9_4eATEtC3a0L6QLIwU97SKp2T9jV8';
+
+      $http.get('https://maps.googleapis.com/maps/api/directions/json?origin='+ lat + ','+ lng +'&destination='+ barLat +','+ barLng +'&mode=walking&key='+ mapsKey)
+        .success(function(data){
+          callback(data)
+        })
+        .error(function(error){
+          console.log(error);
+        })
+    }
+    return {getWalkData: getWalkData}
+
+  });
+
+
+

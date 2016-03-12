@@ -46,7 +46,7 @@ angular.module('barRoulette.controllers', [])
     else{
       $state.go('login');
     }
-  }, 3000)
+  }, 3500)
 })
 
 
@@ -101,7 +101,7 @@ angular.module('barRoulette.controllers', [])
   };
 })
 
-.controller('NearMeCtrl', function($scope, $state, $cordovaGeolocation, $ionicLoading, $http, Bar, UserCoords){
+.controller('NearMeCtrl', function($scope, $state, $cordovaGeolocation, $ionicPopup, $ionicLoading, $http, Bar, UserCoords){
   var options = {timeout: 10000, enableHighAccuracy: true};
 
   $ionicLoading.show({
@@ -159,7 +159,20 @@ angular.module('barRoulette.controllers', [])
     $ionicLoading.hide();
 
   }, function(error){
-    console.log("Could not get location");
+
+      var confirmPopup = $ionicPopup.confirm({
+        title: 'Sorry! ' + error,
+        template: 'Click Okay to reload, or cancel to return home'
+      });
+      confirmPopup.then(function(res) {
+        if(res) {
+          $state.go('app.nearMe', {}, {reload: true});
+        }
+        else {
+          //TODO: need to make a user home page and route there
+          $state.go('app.browse', {}, {reload: true});
+        }
+      });
   });
 })
 
@@ -232,8 +245,36 @@ angular.module('barRoulette.controllers', [])
   };
 })
 
-.controller('WalkCtrl', function($scope, $state, $ionicLoading, $http, Bar){
+.controller('WalkCtrl', function($scope, $state, $ionicLoading, $ionicPopup, $http, Bar, Walk, UserCoords){
+
+  $ionicLoading.show({
+    template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
+  });
+
+  var barInfo = Bar.getBar();
+  var userCoords = UserCoords.getCoords();
+  var userLat = userCoords.lat;
+  var userLng = userCoords.lng;
+  var barLat = barInfo.barLat;
+  var barLng = barInfo.barLng;
+
   $scope.barInfo = Bar.getBar();
+  Walk.getWalkData(userLat, userLng, barLat, barLng, function(data){
+
+    $ionicLoading.hide();
+
+    if(data.status !== 'NOT_FOUND') {
+      $scope.distance = data.routes[0].legs[0].distance.text;
+      $scope.duration = data.routes[0].legs[0].duration.text;
+    }
+    else {
+      $ionicPopup.alert({
+        title: 'Sorry! Something Went Wrong',
+        template: 'Try a different transportation method'
+      });
+      $state.go('app.gettingThere.info', {}, {reload: true});
+    }
+  })
 })
 
 .controller('DriveCtrl', function($scope, $state, $ionicLoading, $http, Bar, UserCoords){
