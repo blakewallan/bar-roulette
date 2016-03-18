@@ -58,15 +58,6 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     }
   })
 
-  .state('app.browse', {
-      url: '/browse',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/browse.html'
-        }
-      }
-    })
-
     .state('app.gettingThere', {
       url: '/gettingThere',
       abstract: true,
@@ -115,6 +106,15 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
         'drive': {
           templateUrl: 'templates/GettingThere/drive.html',
           controller: 'DriveCtrl'
+        }
+      }
+    })
+
+    .state('app.neighborhood', {
+      url: '/neighborhood',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/neighborhood.html'
         }
       }
     })

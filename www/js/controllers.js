@@ -90,7 +90,7 @@ angular.module('barRoulette.controllers', [])
           password: password
         });
       }).then(function(authData){
-        $state.go('app.browse');
+        $state.go('app.nearMe');
       }).catch(function(error){
         $ionicPopup.alert({
           title: 'Error',
@@ -159,8 +159,9 @@ angular.module('barRoulette.controllers', [])
     $ionicLoading.hide();
 
   }, function(error){
+    $ionicLoading.hide();
 
-      var confirmPopup = $ionicPopup.confirm({
+    var confirmPopup = $ionicPopup.confirm({
         title: 'Sorry! ' + error,
         template: 'Click Okay to reload, or cancel to return home'
       });
@@ -274,12 +275,57 @@ angular.module('barRoulette.controllers', [])
       });
       $state.go('app.gettingThere.info', {}, {reload: true});
     }
+    $scope.openGMaps = function(){
+      var appUrl = 'comgooglemaps://?saddr='+ userLat + ',' + userLng +'&daddr='+ barLat + ',' + barLng +'&directionsmode=walking';
+      var noAppUrl = 'https://maps.google.com://?saddr='+ userLat + ',' + userLng +'&daddr='+ barLat + ',' + barLng +'&directionsmode=walking';
+
+      setTimeout(function () {
+        window.open(noAppUrl, '_system')
+      }, 100);
+      window.open(appUrl, '_system')
+    };
   })
 })
 
-.controller('DriveCtrl', function($scope, $state, $ionicLoading, $http, Bar, UserCoords){
+.controller('DriveCtrl', function($scope, $state, $ionicLoading, $ionicPopup, $http, Bar, UserCoords, Drive){
+  $ionicLoading.show({
+    template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
+  });
 
+  var barInfo = Bar.getBar();
+  var userCoords = UserCoords.getCoords();
+  var userLat = userCoords.lat;
+  var userLng = userCoords.lng;
+  var barLat = barInfo.barLat;
+  var barLng = barInfo.barLng;
 
+  $scope.barInfo = Bar.getBar();
+  Drive.getDriveData(userLat, userLng, barLat, barLng, function(data){
+
+    $ionicLoading.hide();
+
+    if(data.status !== 'NOT_FOUND') {
+      $scope.distance = data.routes[0].legs[0].distance.text;
+      $scope.duration = data.routes[0].legs[0].duration.text;
+    }
+    else {
+      $ionicPopup.alert({
+        title: 'Sorry! Something Went Wrong',
+        template: 'Try a different transportation method'
+      });
+      $state.go('app.gettingThere.info', {}, {reload: true});
+    }
+    $scope.openGMaps = function(){
+      var appUrl = 'comgooglemaps://?saddr='+ userLat + ',' + userLng +'&daddr='+ barLat + ',' + barLng +'&directionsmode=driving';
+      var noAppUrl = 'https://maps.google.com://?saddr='+ userLat + ',' + userLng +'&daddr='+ barLat + ',' + barLng +'&directionsmode=driving';
+
+      setTimeout(function () {
+        window.open(noAppUrl, '_system')
+      }, 100);
+      window.open(appUrl, '_system')
+    };
+
+  })
 })
 
 

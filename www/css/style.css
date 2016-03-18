@@ -91,16 +91,16 @@ body {
   z-index: 99;
 }
 
+.item-select {
+
+}
+
 #marker img {
   width: 50px;
 }
 
-.info-title {
-  margin-top: 5%;
-}
-
 .info-details {
-  margin-top: 5%;
+  margin-top: 0;
 }
 
 .info-title img {
@@ -111,7 +111,7 @@ body {
 .button-bottom {
   position: absolute;
   bottom: -9px;
-  height: 60px;
+  height: 10%;
 }
 
 .button-icon {

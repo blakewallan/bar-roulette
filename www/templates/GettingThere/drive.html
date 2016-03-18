@@ -1,7 +1,20 @@
 <ion-view view-title="Drive">
-  <ion-content>
-    <a class="item" ng-click="openUber()">
-      Open a Browser
-    </a>
+  <ion-content scroll="false" class="bg-light-green">
+    <div class="info-details">
+      <h4 class="padding">Driving There</h4>
+      <div class="card animated flipInX">
+        <div class="item item-text-wrap">
+          <h2><strong>Distance: </strong> {{distance}}</h2>
+        </div>
+      </div>
+      <div class="card animated flipInX">
+        <div class="item item-text-wrap">
+          <h2><strong>Duration: </strong> {{duration}}</h2>
+        </div>
+      </div>
+    </div>
+    <button class="button button-bottom button-block button-assertive" ng-click="openGMaps()">Open in Google Maps</button>
   </ion-content>
 </ion-view>
+
+

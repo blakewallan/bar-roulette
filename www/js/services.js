@@ -21,8 +21,9 @@ angular.module('barRoulette.services', [])
     function setBar(lat, lng, distanceOption, callback){
       var mapsKey = 'AIzaSyD5A9_4eATEtC3a0L6QLIwU97SKp2T9jV8';
 
-      $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ lng +'&radius='+ distanceOption +'&types=bar&opennow&key='+ mapsKey)
+      $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ lng +'&radius='+ distanceOption +'&types=bar&opennow&hasNextPage=true&nextPage()&key='+ mapsKey)
         .success(function(data){
+          console.log(data)
           if (data.status === 'OK') {
             var rand = Math.floor((Math.random() * data.results.length));
             theBar = data.results[rand];
@@ -98,6 +99,23 @@ angular.module('barRoulette.services', [])
         })
     }
     return {getWalkData: getWalkData}
+
+  })
+
+  .factory('Drive', function($http){
+
+    function getDriveData(lat, lng, barLat, barLng, callback){
+      var mapsKey = 'AIzaSyD5A9_4eATEtC3a0L6QLIwU97SKp2T9jV8';
+
+      $http.get('https://maps.googleapis.com/maps/api/directions/json?origin='+ lat + ','+ lng +'&destination='+ barLat +','+ barLng +'&mode=driving&key='+ mapsKey)
+        .success(function(data){
+          callback(data)
+        })
+        .error(function(error){
+          console.log(error);
+        })
+    }
+    return {getDriveData: getDriveData}
 
   });
 
