@@ -242,7 +242,10 @@ angular.module('barRoulette.controllers', [])
     setTimeout(function () {
       window.open(noAppUrl, '_system')
     }, 100);
-    window.open(appUrl, '_system')
+    window.open(appUrl, '_system');
+
+    $state.go('onTheWay', {}, {reload: true});
+
   };
 })
 

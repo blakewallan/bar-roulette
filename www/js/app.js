@@ -8,10 +8,8 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
-      // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
   });
@@ -58,68 +56,72 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     }
   })
 
-    .state('app.gettingThere', {
-      url: '/gettingThere',
-      abstract: true,
-      cache: false,
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/gettingThere.html',
-          controller: 'GettingThereCtrl'
-        }
+  .state('app.gettingThere', {
+    url: '/gettingThere',
+    abstract: true,
+    cache: false,
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/gettingThere.html',
+        controller: 'GettingThereCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.gettingThere.info', {
-      url: '/info',
-      views: {
-        'info': {
-          templateUrl: 'templates/GettingThere/info.html',
-          controller: 'GettingThereCtrl'
-        }
+  .state('app.gettingThere.info', {
+    url: '/info',
+    views: {
+      'info': {
+        templateUrl: 'templates/GettingThere/info.html',
+        controller: 'GettingThereCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.gettingThere.uber', {
-      url: '/uber',
-      views: {
-        'uber': {
-          templateUrl: 'templates/GettingThere/uber.html',
-          controller: 'UberCtrl'
-        }
+  .state('app.gettingThere.uber', {
+    url: '/uber',
+    views: {
+      'uber': {
+        templateUrl: 'templates/GettingThere/uber.html',
+        controller: 'UberCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.gettingThere.walk', {
-      url: '/walk',
-      views: {
-        'walk': {
-          templateUrl: 'templates/GettingThere/walk.html',
-          controller: 'WalkCtrl'
-        }
+  .state('app.gettingThere.walk', {
+    url: '/walk',
+    views: {
+      'walk': {
+        templateUrl: 'templates/GettingThere/walk.html',
+        controller: 'WalkCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.gettingThere.drive', {
-      url: '/drive',
-      views: {
-        'drive': {
-          templateUrl: 'templates/GettingThere/drive.html',
-          controller: 'DriveCtrl'
-        }
+  .state('app.gettingThere.drive', {
+    url: '/drive',
+    views: {
+      'drive': {
+        templateUrl: 'templates/GettingThere/drive.html',
+        controller: 'DriveCtrl'
       }
-    })
+    }
+  })
 
-    .state('app.neighborhood', {
-      url: '/neighborhood',
-      views: {
-        'menuContent': {
-          templateUrl: 'templates/neighborhood.html'
-        }
+  .state('app.neighborhood', {
+    url: '/neighborhood',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/neighborhood.html'
       }
-    })
+    }
+  })
 
-  // if none of the above states are matched, use this as the fallback
+  .state('onTheWay', {
+    url: '/onTheWay',
+    templateUrl: 'templates/onTheWay.html'
+  })
+
   $urlRouterProvider.otherwise('/checkAuth');
 });
 
