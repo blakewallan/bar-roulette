@@ -1,0 +1,17 @@
+<ion-view view-title="Login" name="login-view">
+  <ion-content class="drink-bg">
+    <div class="title-area">
+      <h1 class="lobster-title animated bounceInDown">Bar <br> Roulette</h1>
+    </div>
+      <div class="list auth-list">
+          <label class="item item-input">
+              <input type="text" placeholder="Email" ng-model="email">
+          </label>
+          <label class="item item-input">
+              <input type="password" placeholder="Password" ng-model="password">
+          </label>
+          <button class="button button-block button-assertive" ng-click="login(email, password)">Login</button>
+          <h3 class="text-center white-h3">Or</h3>
+          <a href="#/register"><button class="button button-block button-assertive">Dont have an account? SignUp</button></a>
+      </div>
+</ion-view>
