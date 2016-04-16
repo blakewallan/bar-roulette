@@ -22,7 +22,7 @@ body {
   font-family: 'Lobster', cursive;
   color: white;
   font-size: 6em;
-  margin-left: 20%;
+  text-align: center;
 }
 
 .title-area {
@@ -89,10 +89,6 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 99;
-}
-
-.item-select {
-
 }
 
 #marker img {

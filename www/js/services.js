@@ -102,6 +102,7 @@ angular.module('barRoulette.services', [])
 
   })
 
+  //TODO: Super redundant between drive and walk, create one function taking method of transport as param
   .factory('Drive', function($http){
 
     function getDriveData(lat, lng, barLat, barLng, callback){
@@ -119,9 +120,38 @@ angular.module('barRoulette.services', [])
 
   })
 
-  .factory('Track', function($http){
+  .factory('Track', function($cordovaGeolocation, $ionicPopup, $ionicLoading, $http, Bar, UserCoords){
 
-  })
+    var options = {timeout: 10000, enableHighAccuracy: true};
+
+    function check(barLat, barLng){
+      $cordovaGeolocation.getCurrentPosition(options).then(function(position){
+        console.log(position)
+        distanceFrom(position.coords.latitude, position.coords.longitude, barLat, barLng)
+      });
+    }
+
+    function toRad(num) {
+      return num * Math.PI / 180;
+    }
+
+    function distanceFrom(userLat, userLng, barLat, barLng){
+      var earth = 3959;
+      var latDiff = barLat - userLat;
+      var lngDiff = barLng - userLng;
+      var dLat = toRad(latDiff);
+      var dLon = toRad(lngDiff);
+
+      var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(userLat)) * Math.cos(toRad(barLat)) * Math.sin(dLon / 2) * Math.sin(dLon/2);
+      var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+      var distance = earth * c;
+      console.log(distance);
+
+    }
+    return {distanceFrom : check}
+
+  });
 
 
 

@@ -203,7 +203,7 @@ angular.module('barRoulette.controllers', [])
   }
 })
 
-.controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber){
+.controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber, Track){
 
   $ionicLoading.show({
     template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
@@ -216,6 +216,8 @@ angular.module('barRoulette.controllers', [])
   var barLat = barInfo.barLat;
   var barLng = barInfo.barLng;
   var uberId = 'rBA_azhU7byTRXyl_Xt9hoK1z9aTfydC';
+
+  Track.distanceFrom(barLat, barLng);
 
   Uber.getUberData(userLat, userLng, barLat, barLng, function(data){
     $ionicLoading.hide();
