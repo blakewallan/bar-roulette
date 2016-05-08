@@ -119,7 +119,8 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
 
   .state('onTheWay', {
     url: '/onTheWay',
-    templateUrl: 'templates/onTheWay.html'
+    templateUrl: 'templates/onTheWay.html',
+    controller: 'TrackCtrl'
   })
 
   $urlRouterProvider.otherwise('/checkAuth');

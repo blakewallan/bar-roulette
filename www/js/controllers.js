@@ -203,7 +203,7 @@ angular.module('barRoulette.controllers', [])
   }
 })
 
-.controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber, Track){
+.controller('UberCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, UserCoords, Uber){
 
   $ionicLoading.show({
     template: '<ion-spinner class="spinner-assertive"></ion-spinner>'
@@ -216,8 +216,6 @@ angular.module('barRoulette.controllers', [])
   var barLat = barInfo.barLat;
   var barLng = barInfo.barLng;
   var uberId = 'rBA_azhU7byTRXyl_Xt9hoK1z9aTfydC';
-
-  Track.distanceFrom(barLat, barLng);
 
   Uber.getUberData(userLat, userLng, barLat, barLng, function(data){
     $ionicLoading.hide();
@@ -288,6 +286,8 @@ angular.module('barRoulette.controllers', [])
         window.open(noAppUrl, '_system')
       }, 100);
       window.open(appUrl, '_system')
+
+      $state.go('onTheWay', {}, {reload: true});
     };
   })
 })
@@ -328,9 +328,44 @@ angular.module('barRoulette.controllers', [])
         window.open(noAppUrl, '_system')
       }, 100);
       window.open(appUrl, '_system')
+
+      $state.go('onTheWay', {}, {reload: true});
+
     };
 
   })
+})
+
+.controller('TrackCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, Track){
+  var theBar = Bar.getBar();
+  var barLat = theBar.barLat;
+  var barLng = theBar.barLng;
+
+  var minDistance = 0.1;
+
+  $scope.checkDistance = function(){
+    navigator.geolocation.getCurrentPosition(function(postion){
+      var distance = Track.distanceFrom(postion.coords.latitude, postion.coords.longitude, barLat, barLng)
+      console.log(distance)
+      $scope.currentDistance = distance;
+      $scope.$apply();
+      if(distance <= minDistance){
+        console.log("HI");
+        $ionicPopup.alert({
+          title: 'Your here!',
+          template: 'The bar is called ' + theBar.theBar.name
+        })
+      }
+      else {
+        $ionicPopup.alert({
+          title: 'Your not there yet!',
+          template: 'You are ' + distance.toFixed(2) + 'miles away'
+        })
+      }
+    })
+  }
+
+
 })
 
 

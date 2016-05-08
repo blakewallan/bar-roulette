@@ -23,11 +23,9 @@ angular.module('barRoulette.services', [])
 
       $http.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json?location='+ lat +','+ lng +'&radius='+ distanceOption +'&types=bar&opennow&hasNextPage=true&nextPage()&key='+ mapsKey)
         .success(function(data){
-          console.log(data)
           if (data.status === 'OK') {
             var rand = Math.floor((Math.random() * data.results.length));
             theBar = data.results[rand];
-            console.log(theBar);
             var barLat = theBar.geometry.location.lat;
             var barLng = theBar.geometry.location.lng;
             callback(theBar = {theBar: theBar, barLat: barLat, barLng: barLng});
@@ -120,16 +118,7 @@ angular.module('barRoulette.services', [])
 
   })
 
-  .factory('Track', function($cordovaGeolocation, $ionicPopup, $ionicLoading, $http, Bar, UserCoords){
-
-    var options = {timeout: 10000, enableHighAccuracy: true};
-
-    function check(barLat, barLng){
-      $cordovaGeolocation.getCurrentPosition(options).then(function(position){
-        console.log(position)
-        distanceFrom(position.coords.latitude, position.coords.longitude, barLat, barLng)
-      });
-    }
+  .factory('Track', function(){
 
     function toRad(num) {
       return num * Math.PI / 180;
@@ -145,11 +134,13 @@ angular.module('barRoulette.services', [])
       var a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(toRad(userLat)) * Math.cos(toRad(barLat)) * Math.sin(dLon / 2) * Math.sin(dLon/2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-      var distance = earth * c;
-      console.log(distance);
+      return earth * c;
 
     }
-    return {distanceFrom : check}
+
+    return {
+      distanceFrom : distanceFrom
+    };
 
   });
 
