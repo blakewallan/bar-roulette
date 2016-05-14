@@ -184,6 +184,7 @@ angular.module('barRoulette.controllers', [])
   };
 
   var barInfo = Bar.getBar();
+  console.log(barInfo)
   $scope.barInfo = barInfo;
   if(Object.keys(barInfo).length > 1){
     if(barInfo.theBar.price_level){
@@ -329,40 +330,51 @@ angular.module('barRoulette.controllers', [])
       }, 100);
       window.open(appUrl, '_system')
 
-      $state.go('onTheWay', {}, {reload: true});
+      $state.go('onTheWay', {}, {reload: true, cache: false});
 
     };
 
   })
 })
 
-.controller('TrackCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, Bar, Track){
+.controller('TrackCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, $ionicHistory, Bar, Track){
+
+
+  var watch = null;
+
   var theBar = Bar.getBar();
   var barLat = theBar.barLat;
   var barLng = theBar.barLng;
-
   var minDistance = 0.1;
+  console.log(theBar)
 
-  $scope.checkDistance = function(){
-    navigator.geolocation.getCurrentPosition(function(postion){
+  function track(){
+    watch = navigator.geolocation.watchPosition(function(postion){
       var distance = Track.distanceFrom(postion.coords.latitude, postion.coords.longitude, barLat, barLng)
       console.log(distance)
-      $scope.currentDistance = distance;
-      $scope.$apply();
+      $scope.$apply(function(){
+        $scope.currentDistance = distance;
+      });
+
       if(distance <= minDistance){
-        console.log("HI");
         $ionicPopup.alert({
           title: 'Your here!',
           template: 'The bar is called ' + theBar.theBar.name
         })
       }
-      else {
-        $ionicPopup.alert({
-          title: 'Your not there yet!',
-          template: 'You are ' + distance.toFixed(2) + 'miles away'
-        })
-      }
+      //else {
+      //  $ionicPopup.alert({
+      //    title: 'Your not there yet!',
+      //    template: 'You are ' + distance.toFixed(2) + 'miles away'
+      //  })
+      //}
     })
+  }
+  track();
+
+  $scope.cancelTrip = function(){
+    navigator.geolocation.clearWatch(watch);
+    $state.go('app.nearMe', {}, {reload : true});
   }
 
 
