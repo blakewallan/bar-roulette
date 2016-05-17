@@ -337,7 +337,7 @@ angular.module('barRoulette.controllers', [])
   })
 })
 
-.controller('TrackCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, $ionicHistory, Bar, Track){
+.controller('TrackCtrl', function($scope, $state, $ionicPopup, $ionicLoading, $http, $cordovaLocalNotification, Bar, Track){
 
 
   var watch = null;
@@ -346,36 +346,63 @@ angular.module('barRoulette.controllers', [])
   var barLat = theBar.barLat;
   var barLng = theBar.barLng;
   var minDistance = 0.1;
-  console.log(theBar)
+  console.log(theBar);
+
+  cordova.plugins.backgroundMode.setDefaults({
+    title:  "Bar Roulette",
+    ticker: "Your on the way",
+    text:   "Your on the way"
+  });
+
+  cordova.plugins.backgroundMode.enable();
 
   function track(){
     watch = navigator.geolocation.watchPosition(function(postion){
       var distance = Track.distanceFrom(postion.coords.latitude, postion.coords.longitude, barLat, barLng)
-      console.log(distance)
       $scope.$apply(function(){
-        $scope.currentDistance = distance;
+        $scope.currentDistance = distance.toFixed(2);
       });
 
       if(distance <= minDistance){
         $ionicPopup.alert({
           title: 'Your here!',
           template: 'The bar is called ' + theBar.theBar.name
-        })
+        });
+
+        $cordovaLocalNotification.add({
+          id: "1234",
+          message: "Your bar is called " + theBar.theBar.name,
+          title: "Your here!"
+        }).then(function () {
+          stopTrack();
+        });
       }
-      //else {
-      //  $ionicPopup.alert({
-      //    title: 'Your not there yet!',
-      //    template: 'You are ' + distance.toFixed(2) + 'miles away'
-      //  })
-      //}
+
+      //TODO: Can I make this update in the background?
+    //  cordova.plugins.backgroundMode.configure({
+    //    title:  "Bar Roulette",
+    //    ticker: distance,
+    //    text:   "you are " + distance + " miles away from your bar"
+    //});
+
     })
   }
   track();
 
-  $scope.cancelTrip = function(){
+  function stopTrack(){
     navigator.geolocation.clearWatch(watch);
+  }
+
+  $scope.cancelTrip = function(){
     $state.go('app.nearMe', {}, {reload : true});
   }
+
+})
+
+.controller('UserHomeCtrl', function(Firebase, $scope, $state){
+  var fb = new Firebase('bar-roulette.firebaseIO.com');
+  var user = fb.getAuth();
+  console.log(user)
 
 
 })

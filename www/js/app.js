@@ -46,8 +46,19 @@ angular.module('barRoulette', ['ionic', 'barRoulette.controllers', 'barRoulette.
     controller: 'CheckAuthCtrl'
   })
 
+  .state('app.userHome', {
+    url: '/userHome',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/userHome.html',
+        controller: 'UserHomeCtrl'
+      }
+    }
+  })
+
   .state('app.nearMe', {
     url: '/nearMe',
+    cache: false,
     views: {
       'menuContent': {
         templateUrl: 'templates/nearMe.html',
